@@ -19,6 +19,7 @@ function getCatByID(){
   .then(response => response.json())
   .then(data => console.log(data));
     // result.innerHTML = data;
+    
 }
 
 
