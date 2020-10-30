@@ -8,27 +8,40 @@ getCatByID();
 function getCatByID(){
   fetch(url + new URLSearchParams({
     breed_id: 'beng'
-    // bar: 2,
-  }), {
+  } 
+  , {
+    credentials: 'include'
+  })
+  , {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       'x-api-key': catAPIkey
-    },
+    }
   })
   .then(response => response.json())
   .then(data => {
-    // for(let property in data) {
-    //   alert(property + "=" + data[property]);
-    // }
-
-    console.log(data);
+    // console.log(data);
+    let catPictureURL = '';
     let catData = JSON.stringify(data);
-    result.innerHTML = catData; 
-    // JSON.stringify(data);
+    
+
+    JSON.parse(catData, (key, value) => {
+      // if (typeof value === 'string') {
+      //   console.log("case1");
+      //   console.log(value.toUpperCase());
+      // }
+      // console.log("case2");
+      if(key == "url"){
+        console.log(value);
+        catPictureURL = value;
+      }
+    });
+    result.innerHTML = `<img src="${catPictureURL}" width="480px" height="400px"></img>`; 
+  })
+  .catch((error) => {
+    console.error('Error:', error);
   });
-    
-    
 }
 
 
