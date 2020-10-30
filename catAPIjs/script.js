@@ -17,8 +17,17 @@ function getCatByID(){
     },
   })
   .then(response => response.json())
-  .then(data => console.log(data));
-    // result.innerHTML = data;
+  .then(data => {
+    // for(let property in data) {
+    //   alert(property + "=" + data[property]);
+    // }
+
+    console.log(data);
+    let catData = JSON.stringify(data);
+    result.innerHTML = catData; 
+    // JSON.stringify(data);
+  });
+    
     
 }
 
