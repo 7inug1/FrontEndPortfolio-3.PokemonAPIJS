@@ -1,37 +1,39 @@
 const catAPIkey = `c2478ccf-da9c-49cb-9abf-8b41796e6f44`;
 let url = `https://api.thecatapi.com/v1/images/search?`;
-// https://thecatapi.com/v1/images?api_key=c2478ccf-da9c-49cb-9abf-8b41796e6f44
 let result = document.getElementById('result');
 
 getCatByID();
 
 function getCatByID(){
+  // url + new URLSearchParams 
+  // = https://api.thecatapi.com/v1/images/search? + breed_id=beng
   fetch(url + new URLSearchParams({
-    breed_id: 'beng'
+    breed_id: 'beng' 
   } 
-  , {
-    credentials: 'include'
-  })
-  , {
+  // , {
+  //   credentials: 'include' // ?
+  // }
+  ), {
     method: 'GET',
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
     headers: {
       'Content-Type': 'application/json',
       'x-api-key': catAPIkey
-    }
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    // body: JSON.stringify(data) // body data type must match "Content-Type" header
   })
   .then(response => response.json())
   .then(data => {
-    // console.log(data);
+    console.log("data: " + data); // data: [object Object]
+    
     let catPictureURL = '';
     let catData = JSON.stringify(data);
     
-
     JSON.parse(catData, (key, value) => {
-      // if (typeof value === 'string') {
-      //   console.log("case1");
-      //   console.log(value.toUpperCase());
-      // }
-      // console.log("case2");
       if(key == "url"){
         console.log(value);
         catPictureURL = value;
@@ -43,19 +45,3 @@ function getCatByID(){
     console.error('Error:', error);
   });
 }
-
-
-
-
-// function getCatByID(){
-//   fetch(url, { qs: { breed_id: 'beng' } },{
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'x-api-key': catAPIkey
-//     },
-//   })
-//   .then(response => response.json())
-//   .then(data => console.log(data));
-//     // result.innerHTML = data;
-// }
