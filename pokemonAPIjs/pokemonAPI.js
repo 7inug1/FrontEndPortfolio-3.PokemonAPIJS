@@ -14,12 +14,10 @@ function getPokemon(){
       if(key == "name"){
         // console.log("key: " + key);
         console.log("value: " + value);
-        
         pokemonNameArray.push(value);
       }
     });
     for(let i = 0; i < pokemonNameArray.length; i++){
-      
     }
     result.innerHTML = pokemonNameArray;
   })
