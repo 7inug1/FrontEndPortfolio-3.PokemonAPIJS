@@ -1,12 +1,14 @@
-let url = `https://pokeapi.co/api/v2/pokemon/`;
+// let url = `https://pokeapi.co/api/v2/pokemon/`;
 let result = document.getElementById('result');
 let pokemonNameArray = [];
 let htmlString = '';
+let pokemonIndex;
 
-getPokemon();
+// getPokemon();
+getPokemonAttributes();
 
 function getPokemon(){
-  fetch(url)
+  fetch(`https://pokeapi.co/api/v2/pokemon/`)
   .then(response => response.json())
   .then(data => {
     let stringify = JSON.stringify(data);
@@ -18,7 +20,27 @@ function getPokemon(){
       }
     });
     for(let i = 0; i < pokemonNameArray.length; i++){
+      htmlString += `<button>${pokemonNameArray[i]}</button><br><br>`
     }
-    result.innerHTML = pokemonNameArray;
+    result.innerHTML = htmlString;
+  })
+}
+
+function getPokemonAttributes(){
+  pokemonIndex = 7;
+  fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonIndex}`)
+  .then(response => response.json())
+  .then(data => {
+    let stringify = JSON.stringify(data);
+    let myObj = JSON.parse(stringify);
+    console.log(myObj)
+    JSON.parse(stringify, (key, value) => {
+      
+      
+      // console.log("key: " + key);
+      // console.log("value: " + value);
+      
+    })
+
   })
 }
