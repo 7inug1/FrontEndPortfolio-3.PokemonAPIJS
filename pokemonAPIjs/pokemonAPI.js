@@ -32,15 +32,16 @@ function getPokemonAttributes(){
   .then(response => response.json())
   .then(data => {
     let stringify = JSON.stringify(data);
-    let myObj = JSON.parse(stringify);
-    console.log(myObj)
-    JSON.parse(stringify, (key, value) => {
+
+    console.log(Object.keys(data));
+
+    // JSON.parse(stringify, (key, value) => {
       
-      
-      // console.log("key: " + key);
-      // console.log("value: " + value);
-      
-    })
+    //   // if(key == "species" ){
+    //     console.log("key: " + key);
+    //     // console.log("value: " + JSON.stringify(value));
+    //   // }
+    // })
 
   })
 }
