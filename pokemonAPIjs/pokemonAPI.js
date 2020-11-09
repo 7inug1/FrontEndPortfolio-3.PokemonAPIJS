@@ -1,39 +1,45 @@
 // -------------------------------------------------------------
-// Before
+// New
 
 // <variables>
-let result = document.getElementById('result');
-let pokemonNameArray = [];
+let resultDiv = document.getElementById('resultDiv');
+let pokemonArray = [];
 let htmlString = '';
-let pokemonIndex;
+let pokemonName;
+let pokemonURL;
+let pokemonButton;
 
 // <function calls>
-getPokemon();
-getPokemonAttributes();
+createPokemonButtons();
+// getPokemonAttributes();
 
 // <functions>
-function getPokemon(){
+function createPokemonButtons(){
   fetch(`https://pokeapi.co/api/v2/pokemon/`)
   .then(response => response.json())
   .then(data => {
-    let stringify = JSON.stringify(data);
-    JSON.parse(stringify, (key, value) => {
-      if(key == "name"){
-        // console.log("key: " + key);
-        console.log("value: " + value);
-        pokemonNameArray.push(value);
-      }
+    data.results.forEach(pokemon => {
+      pokemonButton = document.createElement("button"); // create button element
+      pokemonButton.textContent = pokemon.name; // text in button
+      
+      console.log("pokemonurl: " + pokemon.url)
+      pokemonURL = pokemon.url;
+      // pokemonButton.onclick = getPokemonAttributes(pokemon.url);
+      
+      pokemonArray.push(pokemonButton); // push button with pokemon name into the array
     });
-    for(let i = 0; i < pokemonNameArray.length; i++){
-      htmlString += `<button>${pokemonNameArray[i]}</button><br><br>`
+    // print out the buttons on the page
+    for(let i = 0; i < pokemonArray.length; i++){
+      // pokemonArray[i].onclick = getPokemonAttributes(pokemonURL);
+      console.log()
+      // pokemonArray[i].addEventListener("click", getPokemonAttributes(pokemonURL));
+      resultDiv.appendChild(pokemonArray[i]);
     }
-    result.innerHTML = htmlString;
   })
 }
 
-function getPokemonAttributes(){
-  pokemonIndex = 7;
-  fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonIndex}`)
+function getPokemonAttributes(url){
+  fetch(url)
   .then(response => response.json())
   .then(data => {
     let stringify = JSON.stringify(data);
@@ -41,6 +47,52 @@ function getPokemonAttributes(){
     console.log(Object.keys(data));
   })
 }
+
+
+
+// // -------------------------------------------------------------
+// // Before
+
+// // <variables>
+// let resultDiv = document.getElementById('resultDiv');
+// let pokemonNameArray = [];
+// let htmlString = '';
+// let pokemonIndex;
+
+// // <function calls>
+// getPokemon();
+// getPokemonAttributes();
+
+// // <functions>
+// function getPokemon(){
+//   fetch(`https://pokeapi.co/api/v2/pokemon/`)
+//   .then(response => response.json())
+//   .then(data => {
+//     let stringify = JSON.stringify(data);
+//     JSON.parse(stringify, (key, value) => {
+//       if(key == "name"){
+//         // console.log("key: " + key);
+//         console.log("value: " + value);
+//         pokemonNameArray.push(value);
+//       }
+//     });
+//     for(let i = 0; i < pokemonNameArray.length; i++){
+//       htmlString += `<button>${pokemonNameArray[i]}</button><br><br>`
+//     }
+//     resultDiv.innerHTML = htmlString;
+//   })
+// }
+
+// function getPokemonAttributes(){
+//   pokemonIndex = 7;
+//   fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonIndex}`)
+//   .then(response => response.json())
+//   .then(data => {
+//     let stringify = JSON.stringify(data);
+
+//     console.log(Object.keys(data));
+//   })
+// }
 
 
 
@@ -54,7 +106,7 @@ function getPokemonAttributes(){
 
 // //<variables>
 // // let url = `https://pokeapi.co/api/v2/pokemon/`;
-// let result = document.getElementById('result');
+// let resultDiv = document.getElementById('resultDiv');
 // let pokemonArray = [];
 // let htmlString = '';
 
@@ -75,7 +127,7 @@ function getPokemonAttributes(){
 //     let stringify = JSON.stringify(data);
 //     let objData = Object.keys(data);
 
-//     // console.log("Object.keys(data): " + objData.results);
+//     // console.log("Object.keys(data): " + objData.resultDivs);
 //     JSON.parse(stringify, (key, value) => {
 //       // console.log("key: " + key);
       
@@ -100,12 +152,12 @@ function getPokemonAttributes(){
 //     for(let i = 0; i < pokemonArray.length; i++){
 //       htmlString += `${pokemonArray[i]}`
 //     }
-//     result.innerHTML = Object.keys(htmlString);
+//     resultDiv.innerHTML = Object.keys(htmlString);
 
 //     // for(let i = 0; i < pokemonArray.length; i++){
 //     //   htmlString += `<button onclick="getPokemonAttributes()">${pokemonIndex}. ${pokemonArray[i]}</button><br><br>`
 //     // }
-//     // result.innerHTML = htmlString;
+//     // resultDiv.innerHTML = htmlString;
 //   })
 // }
 
@@ -117,9 +169,9 @@ function getPokemonAttributes(){
 //     let stringify = JSON.stringify(data);
     
 //     pokemonAttributes.push(Object.keys(data))
-//     // result.innerHTML = pokemonAttributes;
+//     // resultDiv.innerHTML = pokemonAttributes;
 //     for(let i = 0; i < pokemonAttributes.length; i++){
-//       result.innerHTML += `<li>${pokemonAttributes[i]}</li>`
+//       resultDiv.innerHTML += `<li>${pokemonAttributes[i]}</li>`
 //     }
 
 //   })
