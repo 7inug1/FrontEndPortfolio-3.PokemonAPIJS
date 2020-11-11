@@ -22,7 +22,7 @@ function createPokemonButtons(){
       pokemonButton = document.createElement("button"); // create button element
       pokemonButton.textContent = pokemon.name; // text in button
       
-      console.log("pokemonurl: " + pokemon.url)
+      console.log("pokemonurl: " + pokemon.url);
       pokemonURL = pokemon.url;
       // pokemonButton.onclick = getPokemonAttributes(pokemon.url);
       
@@ -31,7 +31,7 @@ function createPokemonButtons(){
     // print out the buttons on the page
     for(let i = 0; i < pokemonArray.length; i++){
       // pokemonArray[i].onclick = getPokemonAttributes(pokemonURL);
-      console.log()
+      console.log();
       // pokemonArray[i].addEventListener("click", getPokemonAttributes(pokemonURL));
       resultDiv.appendChild(pokemonArray[i]);
     }
