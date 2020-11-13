@@ -24,6 +24,7 @@ function createPokemonButtons(){
       
       console.log("pokemonurl: " + pokemon.url);
       pokemonURL = pokemon.url;
+      // figure out how to make the onclick work.
       // pokemonButton.onclick = getPokemonAttributes(pokemon.url);
       
       pokemonArray.push(pokemonButton); // push button with pokemon name into the array
