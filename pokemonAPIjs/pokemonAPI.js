@@ -1,3 +1,10 @@
+// Next goal:
+// -focus on completion
+// -material UI
+// -chooser on left
+// -details on right
+// -pagination - infinite scrolling
+
 // <variables>
 let resultDiv = document.getElementById('resultDiv');
 let pokemonButton;
