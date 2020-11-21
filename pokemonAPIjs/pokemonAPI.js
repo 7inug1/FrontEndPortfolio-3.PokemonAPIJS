@@ -1,6 +1,7 @@
 // Next goal:
-// -focus on completion
-// -material UI: https://github.com/mui-org/material-ui/tree/master/examples/cdn
+// focus on completion
+// -material UI: https://material-ui.com/
+// -material UI CDN: https://github.com/mui-org/material-ui/tree/master/examples/cdn
 // -chooser on left
 // -details on right
 // -pagination - infinite scrolling
