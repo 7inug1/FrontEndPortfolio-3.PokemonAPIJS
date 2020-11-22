@@ -11,3 +11,13 @@
   font:16px Arial, Serif;
   overflow: scroll;
 }
+
+.demo-card-square.mdl-card {
+    width: 320px;
+    height: 320px;
+  }
+.demo-card-square > .mdl-card__title {
+  color: #fff;
+  background:
+    bottom right 80% no-repeat #46B6AC;
+}
