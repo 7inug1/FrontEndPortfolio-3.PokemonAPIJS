@@ -1,0 +1,13 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 10px;
+}
+
+#pokemonListContainer{
+  height:300px;
+  width:300px;
+  border:1px solid black;
+  font:16px Arial, Serif;
+  overflow: scroll;
+}

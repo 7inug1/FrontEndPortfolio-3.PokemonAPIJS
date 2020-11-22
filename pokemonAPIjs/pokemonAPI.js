@@ -7,46 +7,74 @@
 // -pagination - infinite scrolling
 
 // <variables>
-let resultDiv = document.getElementById('resultDiv');
+let pokemonListContainer = document.getElementById('pokemonListContainer');
+
+// let pokemonDetailsContainer = document.getElementById('pokemonDetailsContainer');
+
 let pokemonButton;
 let pokemonArray = [];
-
+let resultNext = '';
 // <function calls>
-createPokemonButtons();
+createPokemonList(`https://pokeapi.co/api/v2/pokemon?offset=40&limit=40`);
+// updatePokemonList();
 
 // <functions>
-function createPokemonButtons(){
-  fetch(`https://pokeapi.co/api/v2/pokemon/`)
+function createPokemonList(url){
+  fetch(url)
   .then(response => response.json())
   .then(data => {
-    // console.log("data: "+ data);
-    // console.log("data.results: " + data.results);
-    // console.log("Object.keys(data.results): " + Object.keys(data.results));
-    // console.log("data.results.url: " + data.results.url)
-    
+    // When scrolling starts from the user
+    pokemonListContainer.onscroll = checkTheEndOfScroll;
+
     pokemonArray = data.results;
-    console.log("pokemonArray: " + pokemonArray);
-    
+    resultNext = data.next;
     for(let i = 0; i < pokemonArray.length; i++){
-      pokemonButton = document.createElement("button");
-      pokemonButton.textContent = pokemonArray[i].name;
+      pokemonButton = document.createElement("button"); // create button element
+      pokemonButton.textContent = pokemonArray[i].name; // put "name" as the button content
+
+      // When button clicked, call "getPokemonAttributes()" with parameter as the url
       pokemonButton.addEventListener('click', function() {
         getPokemonAttributes(pokemonArray[i].url)
       }, false);
+
       let br = document.createElement('br');
-      resultDiv.appendChild(pokemonButton);
-      resultDiv.appendChild(br);
+      pokemonListContainer.appendChild(pokemonButton);
+      pokemonListContainer.appendChild(br);
+
+
     }
   })
 }
+//
+// function updatePokemonList(){
+//   pokemonListContainer.onscroll = checkTheEndOfScroll;
+// }
+function checkTheEndOfScroll(event){
+  let scrollHeight = event.target.scrollHeight;
+  let scrollTop = event.target.scrollTop;
+  let clientHeight = event.target.clientHeight;
+  
+  if(scrollHeight - scrollTop === clientHeight){
+    console.log("end of scroll");
+    createPokemonList(resultNext);
+  }
+}
+
 
 function getPokemonAttributes(url){
   fetch(url)
   .then(response => response.json())
   .then(data => {
+    let pokemonDetailsContainer = document.getElementById('pokemonDetailsContainer');
+    if(pokemonDetailsContainer.hasChildNodes()){
+      pokemonDetailsContainer.removeChild(pokemonDetailsContainer.childNodes[0]);  
+    }
+    
+    // pokemonDetailsContainer.removeChild(pokemonDetailsContainer.childNodes[0]);   
     let img = document.createElement('img');
     img.src = data.sprites.front_default;
-    resultDiv.appendChild(img);
+    pokemonDetailsContainer.appendChild(img);
+    // pokemonDetailsContainer = ''
   })
 }
 
