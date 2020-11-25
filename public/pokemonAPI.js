@@ -10,9 +10,11 @@
 let pokemonListContainer = document.getElementById('pokemonListContainer');
 
 let pokemonButton;
+let totalPokemonArray = [];
 let pokemonArray = [];
 let resultNext = '';
 let br = document.createElement('br');
+let endOfScroll = false;
 // <function calls>
 createPokemonList(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=100`);
 // updatePokemonList();
@@ -24,9 +26,11 @@ function createPokemonList(url){
   .then(data => {
     // When scrolling starts from the user
     pokemonListContainer.onscroll = checkTheEndOfScroll;
-
+    
     pokemonArray = data.results;
+    // totalPokemonArray.push(pokemonArray);
     resultNext = data.next;
+
     for(let i = 0; i < pokemonArray.length; i++){
       pokemonButton = document.createElement("button"); // create button element
       pokemonButton.textContent = pokemonArray[i].name; // put "name" as the button content
@@ -47,10 +51,18 @@ function checkTheEndOfScroll(event){
   let scrollHeight = event.target.scrollHeight;
   let scrollTop = event.target.scrollTop;
   let clientHeight = event.target.clientHeight;
-  
-  if(scrollHeight - scrollTop === clientHeight){
-    console.log("end of scroll");
+  console.log("-------------------------------------");
+  console.log("scrollHeight: " + scrollHeight);
+  console.log("scrollTop: " + scrollTop);
+  console.log("scrollHeight - scrollTop: " + (scrollHeight - scrollTop));
+  console.log("clientHeight: " + clientHeight);
+  if(endOfScroll == false && scrollHeight - scrollTop === clientHeight){
+    endOfScroll = true;
+    console.log(endOfScroll);
+    // console.log("end of scroll");
     createPokemonList(resultNext);
+    endOfScroll = false;
+    console.log(endOfScroll);
   }
 }
 
