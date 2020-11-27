@@ -1,20 +1,24 @@
-// Next goal:
-// focus on completion
-// -material UI: https://material-ui.com/
-// -material UI CDN: https://github.com/mui-org/material-ui/tree/master/examples/cdn
-// -chooser on left
-// -details on right
-// -pagination - infinite scrolling
-
 // <variables>
 let pokemonListContainer = document.getElementById('pokemonListContainer');
-
 let pokemonButton;
-let totalPokemonArray = [];
-let pokemonArray = [];
+
+let totalPokemonButtonArray = [];
+let pokemonDataArray = [];
 let resultNext = '';
 let br = document.createElement('br');
 let endOfScroll = false;
+
+let item1 = document.getElementById('item1');
+let randomButton = document.getElementById("randomButton");
+randomButton.textContent = "randomButton";
+randomButton.addEventListener('click', function() {
+  while (pokemonListContainer.hasChildNodes()) {
+    pokemonListContainer.removeChild(pokemonListContainer.lastChild);
+  }
+});
+
+// let offset = 0; //starting point
+// let limit = 100;
 // <function calls>
 createPokemonList(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=100`);
 // updatePokemonList();
@@ -27,20 +31,31 @@ function createPokemonList(url){
     // When scrolling starts from the user
     pokemonListContainer.onscroll = checkTheEndOfScroll;
     
-    pokemonArray = data.results;
-    // totalPokemonArray.push(pokemonArray);
+    pokemonDataArray = data.results;
+    console.log("data.results" + JSON.stringify(data.results))
     resultNext = data.next;
-
-    for(let i = 0; i < pokemonArray.length; i++){
+    let tempPokemonButtonArray = [];
+    // while (pokemonListContainer.hasChildNodes()) {
+    //   pokemonListContainer.removeChild(pokemonListContainer.lastChild);
+    // }
+    for(let i = 0; i < pokemonDataArray.length; i++){
       pokemonButton = document.createElement("button"); // create button element
-      pokemonButton.textContent = pokemonArray[i].name; // put "name" as the button content
-      pokemonButton.className = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"; 
+      pokemonButton.textContent = pokemonDataArray[i].name; // put "name" as the button content
+      // pokemonButton.className = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"; // material design button
+      pokemonButton.addEventListener('click', function() {getPokemonSprites(pokemonDataArray[i].url)}, false); // get pokemon sprite on button click
+      // -----------------------------여기까지 새로운 pokemon list-------------------------------------------------------------------------
+      tempPokemonButtonArray.push(pokemonButton);
+      console.log(`tempPokemonButtonArray: ${tempPokemonButtonArray[i]}`);
+    }
 
-      pokemonButton.addEventListener('click', function() {
-        getPokemonSprites(pokemonArray[i].url)
-      }, false);
-
-      pokemonListContainer.appendChild(pokemonButton);
+    for(let i = 0; i < tempPokemonButtonArray.length; i++){
+      totalPokemonButtonArray.push(tempPokemonButtonArray[i]);
+    }
+    
+    // pokemonListContainer.innerHTML = '';
+    for(let i = 0; i < totalPokemonButtonArray.length; i++){
+      console.log(`totalPokemonButtonArray[i]: ${totalPokemonButtonArray[i]}`);
+      pokemonListContainer.appendChild(totalPokemonButtonArray[i]);
       pokemonListContainer.appendChild(br);
     }
   })
@@ -51,12 +66,15 @@ function checkTheEndOfScroll(event){
   let scrollHeight = event.target.scrollHeight;
   let scrollTop = event.target.scrollTop;
   let clientHeight = event.target.clientHeight;
-  console.log("-------------------------------------");
-  console.log("scrollHeight: " + scrollHeight);
-  console.log("scrollTop: " + scrollTop);
-  console.log("scrollHeight - scrollTop: " + (scrollHeight - scrollTop));
-  console.log("clientHeight: " + clientHeight);
+  // console.log("-------------------------------------");
+  // console.log("scrollHeight: " + scrollHeight);
+  // console.log("scrollTop: " + scrollTop);
+  // console.log("scrollHeight - scrollTop: " + (scrollHeight - scrollTop));
+  // console.log("clientHeight: " + clientHeight);
   if(endOfScroll == false && scrollHeight - scrollTop === clientHeight){
+    while (pokemonListContainer.hasChildNodes()) {
+      pokemonListContainer.removeChild(pokemonListContainer.lastChild);
+    }
     endOfScroll = true;
     console.log(endOfScroll);
     // console.log("end of scroll");
