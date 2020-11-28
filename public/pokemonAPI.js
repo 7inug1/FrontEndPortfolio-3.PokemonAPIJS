@@ -2,6 +2,7 @@
 let pokemonListContainer = document.getElementById('pokemonListContainer');
 let pokemonButton;
 
+
 let totalPokemonButtonArray = [];
 let pokemonDataArray = [];
 let resultNext = '';
@@ -22,7 +23,7 @@ randomButton.addEventListener('click', function() {
 // <function calls>
 createPokemonList(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=100`);
 // updatePokemonList();
-
+let finalArray = []
 // <functions>
 function createPokemonList(url){
   fetch(url)
@@ -32,12 +33,17 @@ function createPokemonList(url){
     pokemonListContainer.onscroll = checkTheEndOfScroll;
     
     pokemonDataArray = data.results;
-    console.log("data.results" + JSON.stringify(data.results))
+    console.log("finalArray: " + finalArray)
+    console.log("finalArray.length: " + finalArray.length)
+    finalArray.push(data.results)
+    console.log("finalArray: " + finalArray)
+    console.log("finalArray.length: " + finalArray.length)
     resultNext = data.next;
     let tempPokemonButtonArray = [];
     // while (pokemonListContainer.hasChildNodes()) {
     //   pokemonListContainer.removeChild(pokemonListContainer.lastChild);
     // }
+
     for(let i = 0; i < pokemonDataArray.length; i++){
       pokemonButton = document.createElement("button"); // create button element
       pokemonButton.textContent = pokemonDataArray[i].name; // put "name" as the button content
@@ -54,7 +60,7 @@ function createPokemonList(url){
     
     // pokemonListContainer.innerHTML = '';
     for(let i = 0; i < totalPokemonButtonArray.length; i++){
-      console.log(`totalPokemonButtonArray[i]: ${totalPokemonButtonArray[i]}`);
+      // console.log(`totalPokemonButtonArray[i]: ${totalPokemonButtonArray[i]}`);
       pokemonListContainer.appendChild(totalPokemonButtonArray[i]);
       pokemonListContainer.appendChild(br);
     }
