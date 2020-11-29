@@ -24,7 +24,6 @@
   font-style: normal;
 }
 
-
 h1{
   /* font-family: 'PokemonSolid'; 
   font-weight: normal; 
@@ -53,13 +52,16 @@ h1{
 }
 
 .demo-card-square.mdl-card {
-    width: 320px;
-    height: 320px;
-  }
+  width: 500px;
+  height: 400px;
+}
+
 .demo-card-square > .mdl-card__title {
+  flex: none;
+  height: 60px;
   color: #fff;
   background:
-    bottom right 80% no-repeat #46B6AC;
+    rgba(59, 122, 240, 0.733);
 }
 
 #pokemonListContainer button{
