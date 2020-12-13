@@ -1,46 +1,34 @@
-// Next goal:
-// focus on completion
 // -material UI: https://material-ui.com/
 // -material UI CDN: https://github.com/mui-org/material-ui/tree/master/examples/cdn
-// -chooser on left
-// -details on right
-// -pagination - infinite scrolling
-let pokemonDetailsContainer = document.getElementsByClassName('mdl-card__supporting-text')[0];
-let pokemonNameContainer = document.getElementsByClassName('mdl-card__title-text')[0];
-// let pokemonCardTitle = document.getElementsByClassName('mdl-card__title-text')[0];
 
-// <variables>
+let pokemonDetailsContainer = document.getElementsByClassName('mdl-card__supporting-text')[0];
+let pokemonDetailsNameContainer = document.getElementsByClassName('mdl-card__title-text')[0];
+
 let pokemonListContainer = document.getElementById('pokemonListContainer');
 
 let pokemonButton;
-let totalPokemonArray = [];
-let pokemonArray = [];
 let resultNext = '';
-let br = document.createElement('br');
+let br = document.createElement('br'); // 없으면 작동 안됨
 let endOfScroll = false;
-// <function calls>
-createPokemonList(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=100`);
-// updatePokemonList();
 
-// <functions>
+createPokemonList(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=100`);
+
 function createPokemonList(url){
   fetch(url)
   .then(response => response.json())
   .then(data => {
-    // When scrolling starts from the user
-    pokemonListContainer.onscroll = checkTheEndOfScroll;
+    pokemonListContainer.onscroll = checkTheEndOfScroll; // When scrolling starts from the user
     
-    pokemonArray = data.results;
-    // totalPokemonArray.push(pokemonArray);
+    const tempContainer = data.results;
     resultNext = data.next;
-
-    for(let i = 0; i < pokemonArray.length; i++){
+    
+    for(let i = 0; i < tempContainer.length; i++){
       pokemonButton = document.createElement("button"); // create button element
-      pokemonButton.textContent = pokemonArray[i].name; // put "name" as the button content
+      pokemonButton.textContent = tempContainer[i].name; // put "name" as the button content
       pokemonButton.className = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"; 
 
       pokemonButton.addEventListener('click', function() {
-        getPokemonSprites(pokemonArray[i].url)
+        getPokemonSprites(tempContainer[i].url)
       }, false);
 
       pokemonListContainer.appendChild(pokemonButton);
@@ -54,15 +42,9 @@ function checkTheEndOfScroll(event){
   let scrollHeight = event.target.scrollHeight;
   let scrollTop = event.target.scrollTop;
   let clientHeight = event.target.clientHeight;
-  console.log("-------------------------------------");
-  console.log("scrollHeight: " + scrollHeight);
-  console.log("scrollTop: " + scrollTop);
-  console.log("scrollHeight - scrollTop: " + (scrollHeight - scrollTop));
-  console.log("clientHeight: " + clientHeight);
+
   if(endOfScroll == false && scrollHeight - scrollTop === clientHeight){
     endOfScroll = true;
-    console.log(endOfScroll);
-    // console.log("end of scroll");
     createPokemonList(resultNext);
     endOfScroll = false;
     console.log(endOfScroll);
@@ -73,10 +55,6 @@ function getPokemonSprites(url){
   fetch(url)
   .then(response => response.json())
   .then(data => {
-    
-    // var textnode = document.createTextNode("Water"); 
-    // let br = document.createElement('img');
-    
     let pokemonId;
     let pokemonName;
     let pokemonSpecies;
@@ -117,12 +95,12 @@ function getPokemonId(dataId){
 }
 
 function getPokemonName(dataName){
-  while (pokemonNameContainer.firstChild) {
-    pokemonNameContainer.removeChild(pokemonNameContainer.lastChild);
+  while (pokemonDetailsNameContainer.firstChild) {
+    pokemonDetailsNameContainer.removeChild(pokemonDetailsNameContainer.lastChild);
   }
-  // pokemonCardTitle.style.backgroundColor = "red";
+
   pokemonName = document.createTextNode(`${dataName}`); 
-  pokemonNameContainer.appendChild(pokemonName);
+  pokemonDetailsNameContainer.appendChild(pokemonName);
 }
 
 function getPokemonTypes(dataTypes){
