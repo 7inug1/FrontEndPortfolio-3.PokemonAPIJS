@@ -7,7 +7,7 @@ let pokemonDetailsNameContainer = document.getElementsByClassName('mdl-card__tit
 let pokemonListContainer = document.getElementById('pokemonListContainer');
 
 let pokemonButton;
-let resultNext = '';
+let nextPageResult = '';
 let br = document.createElement('br'); // 없으면 작동 안됨
 let endOfScroll = false;
 
@@ -17,18 +17,18 @@ function createPokemonList(url){
   fetch(url)
   .then(response => response.json())
   .then(data => {
-    pokemonListContainer.onscroll = checkTheEndOfScroll; // When scrolling starts from the user
+    pokemonListContainer.onscroll = checkEndOfScroll; // When scrolling starts from the user
+    nextPageResult = data.next;
+    const pokemonsOfEachPage = data.results; 
     
-    const tempContainer = data.results;
-    resultNext = data.next;
     
-    for(let i = 0; i < tempContainer.length; i++){
+    for(let i = 0; i < pokemonsOfEachPage.length; i++){
       pokemonButton = document.createElement("button"); // create button element
-      pokemonButton.textContent = tempContainer[i].name; // put "name" as the button content
-      pokemonButton.className = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"; 
+      pokemonButton.textContent = pokemonsOfEachPage[i].name; // put "name" as the button content
+      pokemonButton.className = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"; // change to materialUI button
 
       pokemonButton.addEventListener('click', function() {
-        getPokemonSprites(tempContainer[i].url)
+        getPokemonSprites(pokemonsOfEachPage[i].url)
       }, false);
 
       pokemonListContainer.appendChild(pokemonButton);
@@ -38,14 +38,14 @@ function createPokemonList(url){
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight
-function checkTheEndOfScroll(event){
+function checkEndOfScroll(event){
   let scrollHeight = event.target.scrollHeight;
   let scrollTop = event.target.scrollTop;
   let clientHeight = event.target.clientHeight;
 
   if(endOfScroll == false && scrollHeight - scrollTop === clientHeight){
     endOfScroll = true;
-    createPokemonList(resultNext);
+    createPokemonList(nextPageResult);
     endOfScroll = false;
     console.log(endOfScroll);
   }
@@ -98,7 +98,6 @@ function getPokemonName(dataName){
   while (pokemonDetailsNameContainer.firstChild) {
     pokemonDetailsNameContainer.removeChild(pokemonDetailsNameContainer.lastChild);
   }
-
   pokemonName = document.createTextNode(`${dataName}`); 
   pokemonDetailsNameContainer.appendChild(pokemonName);
 }
