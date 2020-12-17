@@ -1,17 +1,27 @@
 // -material UI: https://material-ui.com/
 // -material UI CDN: https://github.com/mui-org/material-ui/tree/master/examples/cdn
 
-let pokemonDetailsContainer = document.getElementsByClassName('mdl-card__supporting-text')[0];
+// let pokemonDetailsContainer = document.getElementsByClassName('mdl-card__supporting-text')[0];
 let pokemonDetailsNameContainer = document.getElementsByClassName('mdl-card__title-text')[0];
 
 let pokemonListContainer = document.getElementById('pokemonListContainer');
 
 let pokemonButton;
+let circledNumber;
 let nextPageResult = '';
 let br = document.createElement('br'); // 없으면 작동 안됨
 let endOfScroll = false;
 
 createPokemonList(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=100`);
+testing();
+
+function testing(){
+  fetch(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=100`)
+  .then(response => response.json())
+  .then(data => {
+    console.log("data: " + Object.keys(data.results));
+  })
+}
 
 function createPokemonList(url){
   fetch(url)
@@ -24,13 +34,16 @@ function createPokemonList(url){
     
     for(let i = 0; i < pokemonsOfEachPage.length; i++){
       pokemonButton = document.createElement("button"); // create button element
-      pokemonButton.textContent = pokemonsOfEachPage[i].name; // put "name" as the button content
+      // circledNumber = document.createTextNode(i+1);
+      // circledNumber.className = "badge badge-pill badge-light ml-2";
+      pokemonButton.textContent = (i+1) + ". " + pokemonsOfEachPage[i].name; // put "name" as the button content
       pokemonButton.className = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"; // change to materialUI button
 
       pokemonButton.addEventListener('click', function() {
         getPokemonSprites(pokemonsOfEachPage[i].url)
       }, false);
-
+      let br = document.createElement('br');
+      pokemonButton.appendChild(br);
       pokemonListContainer.appendChild(pokemonButton);
       pokemonListContainer.appendChild(br);
     }

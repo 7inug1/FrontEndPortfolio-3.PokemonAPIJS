@@ -25,11 +25,50 @@
 }
 
 h1{
-  /* font-family: 'PokemonSolid'; 
+  background-color: #003A70;
+  height: 100px;
+}
+
+#pokemonHeading{
+  
+  font-family: "PokemonSolid"; 
   font-weight: normal; 
-  font-style: normal; */
+  font-style: normal; 
+  font-size: 3.5em; 
+  margin: 0px 0px 15px 0px;
+
   text-align: center;
   margin: 0px 0px;
+
+  /*color name, hex, rgba*/
+  color: #FFCB05;
+  /*https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-text-stroke*/
+  -webkit-text-stroke: 4px #3D7DCA;
+}
+
+#pokemonList{
+  font-family: "PokemonHollow"; 
+  font-weight: normal; 
+  font-style: normal; 
+  font-size: 2.1em; 
+  margin: 0px 0px 10px 0px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* grid-column-gap: 10px; */
+}
+
+#item1{
+  /* width: 100%; */
+  /* grid-column: 1 / -1; */
+}
+
+#item2{
+  width: 75%;
+  grid-column: 2 / -1;
+  /* background-image: url("pokemon_background.jpeg"); */
 }
 
 #item1, #item2{
@@ -37,22 +76,37 @@ h1{
   /* padding-top: 0px; */
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  /* grid-column-gap: 10px; */
-}
-
 #pokemonListContainer{
   height:400px;
-  width:300px;
+  width:200px;
   border:1px solid black;
   font:16px Arial, Serif;
   overflow: scroll;
 }
 
+body::-webkit-scrollbar{
+  width: 0.6rem;
+}
+
+body::-webkit-scrollbar-track{
+  background: white;
+}
+
+body::-webkit-scrollbar-thumb{
+  background: blue;
+  border-radius: 10px;
+}
+
+/* body{
+  width: 300px;
+  height: 100px;
+  overflow-y: scroll;
+  scrollbar-color: rebeccapurple green;
+  scrollbar-width: thin;
+} */
+
 .demo-card-square.mdl-card {
-  width: 500px;
+  /* width: 500px; */
   height: 400px;
 }
 
@@ -60,8 +114,8 @@ h1{
   flex: none;
   height: 60px;
   color: #fff;
-  background:
-    rgba(59, 122, 240, 0.733);
+  /* background:
+    rgba(59, 122, 240, 0.733); */
 }
 
 #pokemonListContainer button{
