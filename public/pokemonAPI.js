@@ -1,19 +1,46 @@
 // -material UI: https://material-ui.com/
 // -material UI CDN: https://github.com/mui-org/material-ui/tree/master/examples/cdn
 
-// let pokemonDetailsContainer = document.getElementsByClassName('mdl-card__supporting-text')[0];
-let pokemonDetailsNameContainer = document.getElementsByClassName('mdl-card__title-text')[0];
-
+// let pokemonDetailsCardInfo = document.getElementsByClassName('mdl-card__supporting-text')[0];
+let pokemonDetailsCardTitle = document.getElementById('pokemonDetailsCardTitle');
+let pokemonDetailsCardSprite = document.getElementById('pokemonDetailsCardSprite');
+let pokemonDetailsCardInfo = document.getElementById('pokemonDetailsCardInfo');
 let pokemonListContainer = document.getElementById('pokemonListContainer');
+let pokemonList = document.getElementById('pokemonList');
 
 let pokemonButton;
 let circledNumber;
 let nextPageResult = '';
 let br = document.createElement('br'); // 없으면 작동 안됨
 let endOfScroll = false;
+let counter;
 
 createPokemonList(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=100`);
-testing();
+
+getPokemonCount();
+
+// getPokemonQuantity(`https://pokeapi.co/api/v2/pokemon`)
+// testing();
+
+
+function getPokemonCount(){
+  console.log(getPokemonQuantity(`https://pokeapi.co/api/v2/pokemon`))
+}
+
+function getPokemonQuantity(url){
+  fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    counter = document.createTextNode(" 1/" + data.count);
+    counter.className = "counter";
+
+    pokemonList.appendChild(counter);
+    console.log(counter);
+    console.log(typeof data.count)
+    // return data.count;
+    // console.log(data.count)
+  })
+}
 
 function testing(){
   fetch(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=100`)
@@ -36,8 +63,9 @@ function createPokemonList(url){
       pokemonButton = document.createElement("button"); // create button element
       // circledNumber = document.createTextNode(i+1);
       // circledNumber.className = "badge badge-pill badge-light ml-2";
-      pokemonButton.textContent = (i+1) + ". " + pokemonsOfEachPage[i].name; // put "name" as the button content
-      pokemonButton.className = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"; // change to materialUI button
+      // pokemonButton.textContent = (i+1) + " " + pokemonsOfEachPage[i].name; // put "name" as the button content
+      pokemonButton.textContent = pokemonsOfEachPage[i].name; // put "name" as the button content
+      pokemonButton.className = "pokemonButton"; // change to materialUI button
 
       pokemonButton.addEventListener('click', function() {
         getPokemonSprites(pokemonsOfEachPage[i].url)
@@ -76,10 +104,10 @@ function getPokemonSprites(url){
     let pokemonBaseExperience;
     let pokemonAbilities;
     
-    if(pokemonDetailsContainer.hasChildNodes()){
+    if(pokemonDetailsCardInfo.hasChildNodes()){
       // https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
-      while (pokemonDetailsContainer.firstChild) {
-        pokemonDetailsContainer.removeChild(pokemonDetailsContainer.lastChild);
+      while (pokemonDetailsCardInfo.firstChild) {
+        pokemonDetailsCardInfo.removeChild(pokemonDetailsCardInfo.lastChild);
       }
     }
     
@@ -93,46 +121,53 @@ function getPokemonSprites(url){
 }
 
 function getPokemonFrontSprites(dataSprites){
+  while (pokemonDetailsCardSprite.firstChild) {
+    pokemonDetailsCardSprite.removeChild(pokemonDetailsCardSprite.lastChild);
+  }
   let pokemonSprite = document.createElement('img');
-  pokemonSprite.width = "200"; 
-  pokemonSprite.height = "200"; 
+  pokemonSprite.width = "150"; 
+  pokemonSprite.height = "150"; 
   pokemonSprite.src = dataSprites.front_default;
-  pokemonDetailsContainer.appendChild(pokemonSprite);
-  pokemonSprite.appendChild(br);
+  pokemonDetailsCardSprite.appendChild(pokemonSprite);
+  // pokemonSprite.appendChild(br);
 }
 
 function getPokemonId(dataId){
-  pokemonDetailsContainer.appendChild(document.createElement("br"));
+  // pokemonDetailsCardInfo.appendChild(document.createElement("br"));
   pokemonId = document.createTextNode(`ID: ${dataId}`); 
-  pokemonDetailsContainer.appendChild(pokemonId);
+  // pokemonDetailsCardInfo.appendChild(document.createElement("br"));
+  pokemonDetailsCardInfo.appendChild(pokemonId);
 }
 
 function getPokemonName(dataName){
-  while (pokemonDetailsNameContainer.firstChild) {
-    pokemonDetailsNameContainer.removeChild(pokemonDetailsNameContainer.lastChild);
+  while (pokemonDetailsCardTitle.firstChild) {
+    pokemonDetailsCardTitle.removeChild(pokemonDetailsCardTitle.lastChild);
   }
-  pokemonName = document.createTextNode(`${dataName}`); 
-  pokemonDetailsNameContainer.appendChild(pokemonName);
+  console.log("dataName: " + dataName)
+  pokemonName = document.createTextNode(dataName); 
+  console.log("pokemonName: " + pokemonName)
+  pokemonDetailsCardTitle.appendChild(pokemonName);
 }
 
 function getPokemonTypes(dataTypes){
   for(let i = 0; i < dataTypes.length; i++){
     pokemonTypes = document.createTextNode(`Type: ${dataTypes[i].type.name}`); 
-    pokemonDetailsContainer.appendChild(document.createElement("br"));
-    pokemonDetailsContainer.appendChild(pokemonTypes);
+    pokemonDetailsCardInfo.appendChild(document.createElement("br"));
+    pokemonDetailsCardInfo.appendChild(pokemonTypes);
   }
 }
 
 function getPokemonBaseExperience(dataBaseExperience){
-  pokemonDetailsContainer.appendChild(document.createElement("br"));
+  // pokemonDetailsCardInfo.appendChild(document.createElement("br"));
   pokemonBaseExperience = document.createTextNode(`Base Experience: ${dataBaseExperience}`); 
-  pokemonDetailsContainer.appendChild(pokemonBaseExperience);
+  pokemonDetailsCardInfo.appendChild(document.createElement("br"));
+  pokemonDetailsCardInfo.appendChild(pokemonBaseExperience);
 }
 
 function getPokemonAbilities(dataAbilities){
   for(let i = 0; i < dataAbilities.length; i++){
     pokemonAbilities = document.createTextNode(`Ability: ${dataAbilities[i].ability.name}`); 
-    pokemonDetailsContainer.appendChild(document.createElement("br"));
-    pokemonDetailsContainer.appendChild(pokemonAbilities);
+    pokemonDetailsCardInfo.appendChild(document.createElement("br"));
+    pokemonDetailsCardInfo.appendChild(pokemonAbilities);
   }
 }
