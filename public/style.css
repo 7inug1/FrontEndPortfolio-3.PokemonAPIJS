@@ -92,7 +92,7 @@ h1{
   overflow: scroll;
   scrollbar-color: black white;
   scrollbar-width: thin;
-  overflow-y: auto;
+  overflow-x: hidden;
   /* overflow: auto; */
 }
 
