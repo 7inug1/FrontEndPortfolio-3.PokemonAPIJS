@@ -1,5 +1,5 @@
 // <Pokemon List> Variables - left-hand side
-let pokemonList = document.getElementById('pokemonList');
+let pokemonSubheadingCounter = document.getElementById('pokemonSubheadingCounter');
 let pokemonButton;
 let nextPageResult = '';
 let endOfScroll = false;
@@ -30,16 +30,16 @@ function createPokemonList(url){
     let offset = Number(substring);
     let limit = Number(url.slice((limitRegex+6)));
     
-    if(pokemonList.hasChildNodes()){
+    if(pokemonSubheadingCounter.hasChildNodes()){
       // https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
-      while (pokemonList.firstChild) {
-        pokemonList.removeChild(pokemonList.lastChild);
+      while (pokemonSubheadingCounter.firstChild) {
+        pokemonSubheadingCounter.removeChild(pokemonSubheadingCounter.lastChild);
       }
     }
     
     let counter = document.createTextNode("(" + (offset+limit) + "/" + data.count + ")");
     counter.className = "counter";
-    pokemonList.appendChild(counter);
+    pokemonSubheadingCounter.appendChild(counter);
     //------------------------------------------------------------------------------------------------------------------------
 
     for(let i = 0; i < pokemonsOfEachPage.length; i++){
