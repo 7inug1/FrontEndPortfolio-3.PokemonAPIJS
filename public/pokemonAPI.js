@@ -1,5 +1,5 @@
 // <Pokemon List> Variables - left-hand side
-let pokemonList = document.getElementById('pokemonList');
+let pokemonSubheadingCounter = document.getElementById('pokemonSubheadingCounter');
 let pokemonButton;
 let nextPageResult = '';
 let endOfScroll = false;
@@ -12,7 +12,7 @@ let pokemonDetailsCardInfo = document.getElementById('pokemonDetailsCardInfo');
 
 // <Function Calls>
 createPokemonList(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=100`);
-getPokemonCount();
+
 
 function createPokemonList(url){
   fetch(url)
@@ -30,16 +30,16 @@ function createPokemonList(url){
     let offset = Number(substring);
     let limit = Number(url.slice((limitRegex+6)));
     
-    if(pokemonList.hasChildNodes()){
+    if(pokemonSubheadingCounter.hasChildNodes()){
       // https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
-      while (pokemonList.firstChild) {
-        pokemonList.removeChild(pokemonList.lastChild);
+      while (pokemonSubheadingCounter.firstChild) {
+        pokemonSubheadingCounter.removeChild(pokemonSubheadingCounter.lastChild);
       }
     }
     
     let counter = document.createTextNode("(" + (offset+limit) + "/" + data.count + ")");
     counter.className = "counter";
-    pokemonList.appendChild(counter);
+    pokemonSubheadingCounter.appendChild(counter);
     //------------------------------------------------------------------------------------------------------------------------
 
     for(let i = 0; i < pokemonsOfEachPage.length; i++){
@@ -64,8 +64,9 @@ function checkEndOfScroll(event){
   let scrollHeight = event.target.scrollHeight;
   let scrollTop = event.target.scrollTop;
   let clientHeight = event.target.clientHeight;
-
-  if(endOfScroll == false && scrollHeight - scrollTop === clientHeight){
+  console.log("scrollHeight - scrollTop: " + (scrollHeight - scrollTop));
+  console.log("clientHeight: " + clientHeight);
+  if(endOfScroll == false && ((scrollHeight - scrollTop) <= clientHeight)){
     endOfScroll = true;
     createPokemonList(nextPageResult);
     endOfScroll = false;
