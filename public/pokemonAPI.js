@@ -12,7 +12,7 @@ let pokemonDetailsCardInfo = document.getElementById('pokemonDetailsCardInfo');
 
 // <Function Calls>
 createPokemonList(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=100`);
-getPokemonCount();
+
 
 function createPokemonList(url){
   fetch(url)
@@ -64,8 +64,9 @@ function checkEndOfScroll(event){
   let scrollHeight = event.target.scrollHeight;
   let scrollTop = event.target.scrollTop;
   let clientHeight = event.target.clientHeight;
-
-  if(endOfScroll == false && scrollHeight - scrollTop === clientHeight){
+  console.log("scrollHeight - scrollTop: " + (scrollHeight - scrollTop));
+  console.log("clientHeight: " + clientHeight);
+  if(endOfScroll == false && ((scrollHeight - scrollTop) <= clientHeight)){
     endOfScroll = true;
     createPokemonList(nextPageResult);
     endOfScroll = false;
